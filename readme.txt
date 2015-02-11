@@ -17,11 +17,14 @@ It can also be used for storing data which you may need to reference such as the
 
 Storing these settings in the admin is preferable to hardcoding them into your templates so they can be updated easily.
 
+[Read the documentation](https://github.com/benhuson/site-settings/wiki) to find out how to add admin fields and sections.
+
 == Installation ==
 
 1. Download the archive file and uncompress it.
 2. Put the "site-settings" folder in "wp-content/plugins"
 3. Enable in WordPress by visiting the "Plugins" menu and activating it.
+4. [Read the documentation](https://github.com/benhuson/site-settings/wiki) to find out how to add admin fields and sections.
 
 == Frequently Asked Questions ==
 
