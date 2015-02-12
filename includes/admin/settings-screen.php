@@ -138,7 +138,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 					// Requires the 'post_type' parameter to be set to 'page'.
 
 					$select_args = wp_parse_args( $args['data'], array(
-						'show_option_none' => __( '–– Not Set ––', SITE_SETTINGS_TEXTDOMAIN )
+						'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', SITE_SETTINGS_TEXTDOMAIN ) )
 					) );
 
 					$select_args['name']     = 'site_settings_options[' . $name . ']';
@@ -154,7 +154,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 
 					$select_args = wp_parse_args( $args['data'], array(
 						'hide_empty'       => 0,
-						'show_option_none' => __( '–– Not Set ––', SITE_SETTINGS_TEXTDOMAIN )
+						'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', SITE_SETTINGS_TEXTDOMAIN ) )
 					) );
 
 					$select_args['name']     = 'site_settings_options[' . $name . ']';
