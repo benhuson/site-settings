@@ -30,7 +30,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 			<div>
 				<h2><?php _e( 'Site Settings', SITE_SETTINGS_TEXTDOMAIN ); ?></h2>
 				<p><?php _e( 'Manage fields and settings relating to your site content.', SITE_SETTINGS_TEXTDOMAIN ); ?></p>
-				<p><?php _e( sprintf( 'To find out how to add sections and fields, visit <a%s>the documentation</a>.', ' href="https://github.com/benhuson/site-settings/wiki"' ) ); ?></p>
+				<p><?php printf( __( 'To find out how to add sections and fields, visit <a%s>the documentation</a>.', SITE_SETTINGS_TEXTDOMAIN ), ' href="https://github.com/benhuson/site-settings/wiki"' ); ?></p>
 
 				<form action="options.php" method="post">
 					<?php settings_fields( 'site_settings_options' ); ?>
