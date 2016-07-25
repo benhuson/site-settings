@@ -173,7 +173,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 
 					if ( is_array( $args['data'] ) ) {
 						foreach ( $args['data'] as $option => $title ) {
-							$options .= sprinf( '<option value="%s"%s>%s</option>', esc_attr( $option ), selected( $option, $value ), esc_html( $title ) );
+							$options .= sprintf( '<option value="%s"%s>%s</option>', esc_attr( $option ), selected( $option, $value ), esc_html( $title ) );
 						}
 					}
 
