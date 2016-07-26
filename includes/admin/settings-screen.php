@@ -124,8 +124,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 
 			if ( $args['input'] == 'textarea' ) {
 
-				// Text area field.
-				printf( '<textarea id="%s" name="site_settings_options[%s]" size="40" rows="%s" class="large-text">%s</textarea>', $args['id'], $args['name'], $args['rows'], $args['value'] );
+				self::add_settings_textarea_field( $args );
 
 			} elseif ( $args['input'] == 'select' ) {
 
@@ -207,6 +206,17 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 				self::add_settings_text_field( $args );
 
 			}
+
+		}
+
+		/**
+		 * Add Textarea Settings Field
+		 *
+		 * @param  array  $args  Setting parameters.
+		 */
+		private static function add_settings_textarea_field( $args ) {
+
+			printf( '<textarea id="%s" name="site_settings_options[%s]" size="40" rows="%s" class="large-text">%s</textarea>', $args['id'], $args['name'], $args['rows'], $args['value'] );
 
 		}
 
