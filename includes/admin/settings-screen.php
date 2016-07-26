@@ -182,6 +182,27 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 
 				}
 
+			} elseif ( in_array( $args['input'], array( 'checkbox', 'radio' ) ) ) {
+
+				if ( is_array( $args['data'] ) && ! empty( $args['data'] ) ) {
+
+					echo '<ul style="margin: 0;">';
+					foreach ( $args['data'] as $key => $label ) {
+						$name_attr = sprintf( 'site_settings_options[%s]', $name );
+						if ( 'checkbox' == $args['input'] ) {
+							$name_attr .= '[]';
+						}
+						$checked = is_array( $value ) ? checked( in_array( $key, $value ), true, false ) : checked( $key, $value, false );
+						printf( '<li><label><input id="%s" name="%s" size="40" type="%s" value="%s"%s /> %s</label></li>', $id, $name_attr, $args['input'], $key, $checked, esc_html( $label ) );
+					}
+					echo '</ul>';
+
+				} else {
+
+					printf( '<input id="%s" name="site_settings_options[%s]" size="40" type="%s" value="1"%s />', $id, $name, $args['input'], checked( 1, $value, false ) );
+
+				}
+
 			} else {
 
 				// Default text field.
