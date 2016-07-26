@@ -132,7 +132,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 
 				// Select menu field.
 
-				if ( 'page' == $args['post_type']  ) {
+				if ( ! empty( $args['post_type'] ) && post_type_exists( $args['post_type'] ) ) {
 
 					// Page dropdown menu select field.
 					// Requires the 'post_type' parameter to be set to 'page'.
@@ -144,6 +144,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 					$select_args['name']     = 'site_settings_options[' . $name . ']';
 					$select_args['id']       = $id;
 					$select_args['selected'] = $value;
+					$select_args['post_type'] = $args['post_type'];
 
 					wp_dropdown_pages( $select_args );
 
