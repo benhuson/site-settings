@@ -7,8 +7,8 @@ Plugin URI: https://github.com/benhuson/site-settings
 Description: Manage custom site settings and global content fields.
 Author: Ben Huson
 Author URI: https://github.com/benhuson/
-Version: 0.1
-Tested up to: 4.1
+Version: 0.2
+Tested up to: 4.5.3
 Minimum WordPress Version Required: 3.9
 
 Released under the GPL:

@@ -2,8 +2,8 @@
 Contributors: husobj
 Tags: admin, settings
 Requires at least: 3.9
-Tested up to: 4.1
-Stable tag: 0.1
+Tested up to: 4.5.3
+Stable tag: 0.2
 License: GPLv3
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
@@ -37,11 +37,21 @@ None at the moment.
 
 == Changelog ==
 
+= 0.2 =
+
+* Add support for post type select menus, checkboxes and radio buttons.
+* Fix custom select menus selected states.
+* Fix `sprintf` mis-spelling causing fatal error in select menus.
+* Textdomain must be a string, not constant, to work with parsers.
+
 = 0.1 =
 
 * Initial development.
 
 == Upgrade Notice ==
+
+= 0.2 =
+Add support for post type select menus, checkboxes and radio buttons.
 
 = 0.1 =
 First Release
