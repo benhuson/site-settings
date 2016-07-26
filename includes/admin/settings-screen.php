@@ -204,10 +204,20 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 
 			} else {
 
-				// Default text field.
-				printf( '<input id="%s" name="site_settings_options[%s]" size="40" type="text" value="%s" class="regular-text" />', $args['id'], $args['name'], $args['value'] );
+				self::add_settings_text_field( $args );
 
 			}
+
+		}
+
+		/**
+		 * Add Text Settings Field
+		 *
+		 * @param  array  $args  Setting parameters.
+		 */
+		private static function add_settings_text_field( $args ) {
+
+			printf( '<input id="%s" name="site_settings_options[%s]" size="40" type="text" value="%s" class="regular-text" />', $args['id'], $args['name'], $args['value'] );
 
 		}
 
