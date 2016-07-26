@@ -128,57 +128,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 
 			} elseif ( $args['input'] == 'select' ) {
 
-				// Select menu field.
-
-				if ( ! empty( $args['post_type'] ) && post_type_exists( $args['post_type'] ) ) {
-
-					// Page dropdown menu select field.
-					// Requires the 'post_type' parameter to be set to 'page'.
-
-					$select_args = wp_parse_args( $args['data'], array(
-						'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', 'site-settings' ) )
-					) );
-
-					$select_args['name']     = 'site_settings_options[' . $args['name'] . ']';
-					$select_args['id']       = $args['id'];
-					$select_args['selected'] = $args['value'];
-					$select_args['post_type'] = $args['post_type'];
-
-					wp_dropdown_pages( $select_args );
-
-				} elseif ( ! empty( $args['taxonomy'] ) ) {
-
-					// Taxonomy dropdown menu select field.
-					// Requires the 'taxonomy' parameter to be set.
-
-					$select_args = wp_parse_args( $args['data'], array(
-						'hide_empty'       => 0,
-						'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', 'site-settings' ) )
-					) );
-
-					$select_args['name']     = 'site_settings_options[' . $args['name'] . ']';
-					$select_args['id']       = $args['id'];
-					$select_args['selected'] = $args['value'];
-					$select_args['taxonomy'] = $args['taxonomy'];
-
-					wp_dropdown_categories( $select_args );
-
-				} else {
-
-					// Custom select menu.
-					// Expects 'data' parameters to be an array of key => value pairs.
-
-					$options = '';
-
-					if ( is_array( $args['data'] ) ) {
-						foreach ( $args['data'] as $option => $title ) {
-							$options .= sprintf( '<option value="%s"%s>%s</option>', esc_attr( $option ), selected( $option, $args['value'], false ), esc_html( $title ) );
-						}
-					}
-
-					printf( '<select id="%s" name="site_settings_options[%s]">%s</select>', $args['id'], $args['name'], $options );
-
-				}
+				self::add_settings_select_field( $args );
 
 			} elseif ( in_array( $args['input'], array( 'checkbox', 'radio' ) ) ) {
 
@@ -200,6 +150,65 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 		private static function add_settings_textarea_field( $args ) {
 
 			printf( '<textarea id="%s" name="site_settings_options[%s]" size="40" rows="%s" class="large-text">%s</textarea>', $args['id'], $args['name'], $args['rows'], $args['value'] );
+
+		}
+
+		/**
+		 * Add Select Settings Field
+		 *
+		 * @param  array  $args  Setting parameters.
+		 */
+		private static function add_settings_select_field( $args ) {
+
+			if ( ! empty( $args['post_type'] ) && post_type_exists( $args['post_type'] ) ) {
+
+				// Page dropdown menu select field.
+				// Requires the 'post_type' parameter to be set to 'page'.
+
+				$select_args = wp_parse_args( $args['data'], array(
+					'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', 'site-settings' ) )
+				) );
+
+				$select_args['name']     = 'site_settings_options[' . $args['name'] . ']';
+				$select_args['id']       = $args['id'];
+				$select_args['selected'] = $args['value'];
+				$select_args['post_type'] = $args['post_type'];
+
+				wp_dropdown_pages( $select_args );
+
+			} elseif ( ! empty( $args['taxonomy'] ) ) {
+
+				// Taxonomy dropdown menu select field.
+				// Requires the 'taxonomy' parameter to be set.
+
+				$select_args = wp_parse_args( $args['data'], array(
+					'hide_empty'       => 0,
+					'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', 'site-settings' ) )
+				) );
+
+				$select_args['name']     = 'site_settings_options[' . $args['name'] . ']';
+				$select_args['id']       = $args['id'];
+				$select_args['selected'] = $args['value'];
+				$select_args['taxonomy'] = $args['taxonomy'];
+
+				wp_dropdown_categories( $select_args );
+
+			} else {
+
+				// Custom select menu.
+				// Expects 'data' parameters to be an array of key => value pairs.
+
+				$options = '';
+
+				if ( is_array( $args['data'] ) ) {
+					foreach ( $args['data'] as $option => $title ) {
+						$options .= sprintf( '<option value="%s"%s>%s</option>', esc_attr( $option ), selected( $option, $args['value'], false ), esc_html( $title ) );
+					}
+				}
+
+				printf( '<select id="%s" name="site_settings_options[%s]">%s</select>', $args['id'], $args['name'], $options );
+
+			}
 
 		}
 
