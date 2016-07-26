@@ -30,9 +30,9 @@ if ( ! class_exists( 'Site_Settings_Admin' ) ) {
 
 			$myplugin_plugin_row = new Site_Settings_Plugin_Row( plugin_basename( SITE_SETTINGS_FILE ) );
 
-			$myplugin_plugin_row->add_action( __( 'Settings', SITE_SETTINGS_TEXTDOMAIN ), admin_url( '/options-general.php?page=site-settings' ) );
-			$myplugin_plugin_row->add_meta( __( 'Documentation', SITE_SETTINGS_TEXTDOMAIN ), 'https://github.com/benhuson/site-settings/wiki' );
-			$myplugin_plugin_row->add_meta( __( 'GitHub', SITE_SETTINGS_TEXTDOMAIN ), 'https://github.com/benhuson/site-settings' );
+			$myplugin_plugin_row->add_action( __( 'Settings', 'site-settings' ), admin_url( '/options-general.php?page=site-settings' ) );
+			$myplugin_plugin_row->add_meta( __( 'Documentation', 'site-settings' ), 'https://github.com/benhuson/site-settings/wiki' );
+			$myplugin_plugin_row->add_meta( __( 'GitHub', 'site-settings' ), 'https://github.com/benhuson/site-settings' );
 
 		}
 

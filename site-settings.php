@@ -19,7 +19,7 @@ http://www.opensource.org/licenses/gpl-license.php
 define( 'SITE_SETTINGS_VERSION', '1.0' );
 define( 'SITE_SETTINGS_DB_VERSION', '1.0' );
 define( 'SITE_SETTINGS_FILE', __FILE__ );
-define( 'SITE_SETTINGS_TEXTDOMAIN', 'site-settings' );
+define( 'SITE_SETTINGS_TEXTDOMAIN', 'site-settings' );  // @deprecated
 
 // Global functionality
 require_once( plugin_dir_path( SITE_SETTINGS_FILE ) . 'includes/global.php' );
@@ -31,7 +31,7 @@ if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 
 // I18n
 function site_settings_load_plugin_textdomain() {
-	load_plugin_textdomain( SITE_SETTINGS_TEXTDOMAIN, false, dirname( plugin_basename( SITE_SETTINGS_FILE ) ) . '/languages/' );
+	load_plugin_textdomain( 'site-settings', false, dirname( plugin_basename( SITE_SETTINGS_FILE ) ) . '/languages/' );
 }
 
 add_action( 'plugins_loaded', 'site_settings_load_plugin_textdomain' );
