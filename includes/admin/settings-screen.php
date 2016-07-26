@@ -16,7 +16,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 		 */
 		public static function options_pages() {
 
-			add_options_page( __( 'Site Settings', SITE_SETTINGS_TEXTDOMAIN ), __( 'Site Settings', SITE_SETTINGS_TEXTDOMAIN ), 'manage_options', 'site-settings', array( 'Site_Settings_Admin_Screen', 'site_settings_page' ) );
+			add_options_page( __( 'Site Settings', 'site-settings' ), __( 'Site Settings', 'site-settings' ), 'manage_options', 'site-settings', array( 'Site_Settings_Admin_Screen', 'site_settings_page' ) );
 
 		}
 
@@ -28,9 +28,9 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 			?>
 
 			<div>
-				<h2><?php _e( 'Site Settings', SITE_SETTINGS_TEXTDOMAIN ); ?></h2>
-				<p><?php _e( 'Manage fields and settings relating to your site content.', SITE_SETTINGS_TEXTDOMAIN ); ?></p>
-				<p><?php printf( __( 'To find out how to add sections and fields, visit <a%s>the documentation</a>.', SITE_SETTINGS_TEXTDOMAIN ), ' href="https://github.com/benhuson/site-settings/wiki"' ); ?></p>
+				<h2><?php _e( 'Site Settings', 'site-settings' ); ?></h2>
+				<p><?php _e( 'Manage fields and settings relating to your site content.', 'site-settings' ); ?></p>
+				<p><?php printf( __( 'To find out how to add sections and fields, visit <a%s>the documentation</a>.', 'site-settings' ), ' href="https://github.com/benhuson/site-settings/wiki"' ); ?></p>
 
 				<form action="options.php" method="post">
 					<?php settings_fields( 'site_settings_options' ); ?>
@@ -138,7 +138,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 					// Requires the 'post_type' parameter to be set to 'page'.
 
 					$select_args = wp_parse_args( $args['data'], array(
-						'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', SITE_SETTINGS_TEXTDOMAIN ) )
+						'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', 'site-settings' ) )
 					) );
 
 					$select_args['name']     = 'site_settings_options[' . $name . ']';
@@ -154,7 +154,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 
 					$select_args = wp_parse_args( $args['data'], array(
 						'hide_empty'       => 0,
-						'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', SITE_SETTINGS_TEXTDOMAIN ) )
+						'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', 'site-settings' ) )
 					) );
 
 					$select_args['name']     = 'site_settings_options[' . $name . ']';
