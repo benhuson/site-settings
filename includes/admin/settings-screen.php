@@ -122,6 +122,8 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 			$args['id'] = self::get_field_id( $args['name'] );
 			$args['value'] = Site_Settings::get( $args['name'] );
 
+			do_action( 'site_settings_before_field', $args );
+
 			switch ( $args['input'] ) {
 
 				// Textarea
@@ -146,6 +148,8 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 					break;
 
 			}
+
+			do_action( 'site_settings_after_field', $args );
 
 		}
 
