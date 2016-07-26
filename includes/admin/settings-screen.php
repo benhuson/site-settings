@@ -122,21 +122,28 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 			$args['id'] = self::get_field_id( $args['name'] );
 			$args['value'] = Site_Settings::get( $args['name'] );
 
-			if ( $args['input'] == 'textarea' ) {
+			switch ( $args['input'] ) {
 
-				self::add_settings_textarea_field( $args );
+				// Textarea
+				case 'textarea':
+					self::add_settings_textarea_field( $args );
+					break;
 
-			} elseif ( $args['input'] == 'select' ) {
+				// Select
+				case 'select':
+					self::add_settings_select_field( $args );
+					break;
 
-				self::add_settings_select_field( $args );
+				// Checkbox / Radio
+				case 'checkbox':
+				case 'radio':
+					self::add_settings_checkbox_field( $args );
+					break;
 
-			} elseif ( in_array( $args['input'], array( 'checkbox', 'radio' ) ) ) {
-
-				self::add_settings_checkbox_field( $args );
-
-			} else {
-
-				self::add_settings_text_field( $args );
+				// Text
+				default:
+					self::add_settings_text_field( $args );
+					break;
 
 			}
 
