@@ -119,14 +119,13 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 				'data'      => array()
 			) );
 
-			$name  = $args['name'];
-			$id    = self::get_field_id( $name );
-			$value = Site_Settings::get( $name );
+			$args['id'] = self::get_field_id( $args['name'] );
+			$args['value'] = Site_Settings::get( $args['name'] );
 
 			if ( $args['input'] == 'textarea' ) {
 
 				// Text area field.
-				printf( '<textarea id="%s" name="site_settings_options[%s]" size="40" rows="%s" class="large-text">%s</textarea>', $id, $name, $args['rows'], $value );
+				printf( '<textarea id="%s" name="site_settings_options[%s]" size="40" rows="%s" class="large-text">%s</textarea>', $args['id'], $args['name'], $args['rows'], $args['value'] );
 
 			} elseif ( $args['input'] == 'select' ) {
 
@@ -141,9 +140,9 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 						'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', 'site-settings' ) )
 					) );
 
-					$select_args['name']     = 'site_settings_options[' . $name . ']';
-					$select_args['id']       = $id;
-					$select_args['selected'] = $value;
+					$select_args['name']     = 'site_settings_options[' . $args['name'] . ']';
+					$select_args['id']       = $args['id'];
+					$select_args['selected'] = $args['value'];
 					$select_args['post_type'] = $args['post_type'];
 
 					wp_dropdown_pages( $select_args );
@@ -158,9 +157,9 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 						'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', 'site-settings' ) )
 					) );
 
-					$select_args['name']     = 'site_settings_options[' . $name . ']';
-					$select_args['id']       = $id;
-					$select_args['selected'] = $value;
+					$select_args['name']     = 'site_settings_options[' . $args['name'] . ']';
+					$select_args['id']       = $args['id'];
+					$select_args['selected'] = $args['value'];
 					$select_args['taxonomy'] = $args['taxonomy'];
 
 					wp_dropdown_categories( $select_args );
@@ -174,11 +173,11 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 
 					if ( is_array( $args['data'] ) ) {
 						foreach ( $args['data'] as $option => $title ) {
-							$options .= sprintf( '<option value="%s"%s>%s</option>', esc_attr( $option ), selected( $option, $value, false ), esc_html( $title ) );
+							$options .= sprintf( '<option value="%s"%s>%s</option>', esc_attr( $option ), selected( $option, $args['value'], false ), esc_html( $title ) );
 						}
 					}
 
-					printf( '<select id="%s" name="site_settings_options[%s]">%s</select>', $id, $name, $options );
+					printf( '<select id="%s" name="site_settings_options[%s]">%s</select>', $args['id'], $args['name'], $options );
 
 				}
 
@@ -188,25 +187,25 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 
 					echo '<ul style="margin: 0;">';
 					foreach ( $args['data'] as $key => $label ) {
-						$name_attr = sprintf( 'site_settings_options[%s]', $name );
+						$name_attr = sprintf( 'site_settings_options[%s]', $args['name'] );
 						if ( 'checkbox' == $args['input'] ) {
 							$name_attr .= '[]';
 						}
-						$checked = is_array( $value ) ? checked( in_array( $key, $value ), true, false ) : checked( $key, $value, false );
-						printf( '<li><label><input id="%s" name="%s" size="40" type="%s" value="%s"%s /> %s</label></li>', $id, $name_attr, $args['input'], $key, $checked, esc_html( $label ) );
+						$checked = is_array( $args['value'] ) ? checked( in_array( $key, $args['value'] ), true, false ) : checked( $key, $args['value'], false );
+						printf( '<li><label><input id="%s" name="%s" size="40" type="%s" value="%s"%s /> %s</label></li>', $args['id'], $name_attr, $args['input'], $key, $checked, esc_html( $label ) );
 					}
 					echo '</ul>';
 
 				} else {
 
-					printf( '<input id="%s" name="site_settings_options[%s]" size="40" type="%s" value="1"%s />', $id, $name, $args['input'], checked( 1, $value, false ) );
+					printf( '<input id="%s" name="site_settings_options[%s]" size="40" type="%s" value="1"%s />', $args['id'], $args['name'], $args['input'], checked( 1, $args['value'], false ) );
 
 				}
 
 			} else {
 
 				// Default text field.
-				printf( '<input id="%s" name="site_settings_options[%s]" size="40" type="text" value="%s" class="regular-text" />', $id, $name, $value );
+				printf( '<input id="%s" name="site_settings_options[%s]" size="40" type="text" value="%s" class="regular-text" />', $args['id'], $args['name'], $args['value'] );
 
 			}
 
