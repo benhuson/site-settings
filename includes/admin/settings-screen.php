@@ -16,7 +16,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 		 */
 		public static function options_pages() {
 
-			add_options_page( __( 'Site Settings', SITE_SETTINGS_TEXTDOMAIN ), __( 'Site Settings', SITE_SETTINGS_TEXTDOMAIN ), 'manage_options', 'site-settings', array( 'Site_Settings_Admin_Screen', 'site_settings_page' ) );
+			add_options_page( __( 'Site Settings', 'site-settings' ), __( 'Site Settings', 'site-settings' ), 'manage_options', 'site-settings', array( 'Site_Settings_Admin_Screen', 'site_settings_page' ) );
 
 		}
 
@@ -28,9 +28,9 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 			?>
 
 			<div>
-				<h2><?php _e( 'Site Settings', SITE_SETTINGS_TEXTDOMAIN ); ?></h2>
-				<p><?php _e( 'Manage fields and settings relating to your site content.', SITE_SETTINGS_TEXTDOMAIN ); ?></p>
-				<p><?php printf( __( 'To find out how to add sections and fields, visit <a%s>the documentation</a>.', SITE_SETTINGS_TEXTDOMAIN ), ' href="https://github.com/benhuson/site-settings/wiki"' ); ?></p>
+				<h2><?php _e( 'Site Settings', 'site-settings' ); ?></h2>
+				<p><?php _e( 'Manage fields and settings relating to your site content.', 'site-settings' ); ?></p>
+				<p><?php printf( __( 'To find out how to add sections and fields, visit <a%s>the documentation</a>.', 'site-settings' ), ' href="https://github.com/benhuson/site-settings/wiki"' ); ?></p>
 
 				<form action="options.php" method="post">
 					<?php settings_fields( 'site_settings_options' ); ?>
@@ -119,74 +119,153 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 				'data'      => array()
 			) );
 
-			$name  = $args['name'];
-			$id    = self::get_field_id( $name );
-			$value = Site_Settings::get( $name );
+			$args['id'] = self::get_field_id( $args['name'] );
+			$args['value'] = Site_Settings::get( $args['name'] );
 
-			if ( $args['input'] == 'textarea' ) {
+			switch ( $args['input'] ) {
 
-				// Text area field.
-				printf( '<textarea id="%s" name="site_settings_options[%s]" size="40" rows="%s" class="large-text">%s</textarea>', $id, $name, $args['rows'], $value );
+				// Textarea
+				case 'textarea':
+					self::add_settings_textarea_field( $args );
+					break;
 
-			} elseif ( $args['input'] == 'select' ) {
+				// Select
+				case 'select':
+					self::add_settings_select_field( $args );
+					break;
 
-				// Select menu field.
+				// Checkbox / Radio
+				case 'checkbox':
+				case 'radio':
+					self::add_settings_checkbox_field( $args );
+					break;
 
-				if ( 'page' == $args['post_type']  ) {
+				// Text
+				default:
+					self::add_settings_text_field( $args );
+					break;
 
-					// Page dropdown menu select field.
-					// Requires the 'post_type' parameter to be set to 'page'.
+			}
 
-					$select_args = wp_parse_args( $args['data'], array(
-						'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', SITE_SETTINGS_TEXTDOMAIN ) )
-					) );
+		}
 
-					$select_args['name']     = 'site_settings_options[' . $name . ']';
-					$select_args['id']       = $id;
-					$select_args['selected'] = $value;
+		/**
+		 * Add Textarea Settings Field
+		 *
+		 * @param  array  $args  Setting parameters.
+		 */
+		private static function add_settings_textarea_field( $args ) {
 
-					wp_dropdown_pages( $select_args );
+			printf( '<textarea id="%s" name="site_settings_options[%s]" size="40" rows="%s" class="large-text">%s</textarea>', $args['id'], $args['name'], $args['rows'], $args['value'] );
 
-				} elseif ( ! empty( $args['taxonomy'] ) ) {
+		}
 
-					// Taxonomy dropdown menu select field.
-					// Requires the 'taxonomy' parameter to be set.
+		/**
+		 * Add Select Settings Field
+		 *
+		 * @param  array  $args  Setting parameters.
+		 */
+		private static function add_settings_select_field( $args ) {
 
-					$select_args = wp_parse_args( $args['data'], array(
-						'hide_empty'       => 0,
-						'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', SITE_SETTINGS_TEXTDOMAIN ) )
-					) );
+			if ( ! empty( $args['post_type'] ) && post_type_exists( $args['post_type'] ) ) {
 
-					$select_args['name']     = 'site_settings_options[' . $name . ']';
-					$select_args['id']       = $id;
-					$select_args['selected'] = $value;
-					$select_args['taxonomy'] = $args['taxonomy'];
+				// Page dropdown menu select field.
+				// Requires the 'post_type' parameter to be set to 'page'.
 
-					wp_dropdown_categories( $select_args );
+				$select_args = wp_parse_args( $args['data'], array(
+					'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', 'site-settings' ) )
+				) );
 
-				} else {
+				$select_args['name']     = 'site_settings_options[' . $args['name'] . ']';
+				$select_args['id']       = $args['id'];
+				$select_args['selected'] = $args['value'];
+				$select_args['post_type'] = $args['post_type'];
 
-					// Custom select menu.
-					// Expects 'data' parameters to be an array of key => value pairs.
+				wp_dropdown_pages( $select_args );
 
-					$options = '';
+			} elseif ( ! empty( $args['taxonomy'] ) ) {
 
-					if ( is_array( $args['data'] ) ) {
-						foreach ( $args['data'] as $option => $title ) {
-							$options .= sprintf( '<option value="%s"%s>%s</option>', esc_attr( $option ), selected( $option, $value ), esc_html( $title ) );
-						}
-					}
+				// Taxonomy dropdown menu select field.
+				// Requires the 'taxonomy' parameter to be set.
 
-					printf( '<select id="%s" name="site_settings_options[%s]">%s</select>', $id, $name, $options );
+				$select_args = wp_parse_args( $args['data'], array(
+					'hide_empty'       => 0,
+					'show_option_none' => sprintf( '–– %s ––', __( 'Not Set', 'site-settings' ) )
+				) );
 
-				}
+				$select_args['name']     = 'site_settings_options[' . $args['name'] . ']';
+				$select_args['id']       = $args['id'];
+				$select_args['selected'] = $args['value'];
+				$select_args['taxonomy'] = $args['taxonomy'];
+
+				wp_dropdown_categories( $select_args );
 
 			} else {
 
-				// Default text field.
-				printf( '<input id="%s" name="site_settings_options[%s]" size="40" type="text" value="%s" class="regular-text" />', $id, $name, $value );
+				// Custom select menu.
+				// Expects 'data' parameters to be an array of key => value pairs.
+
+				$options = '';
+
+				if ( is_array( $args['data'] ) ) {
+					foreach ( $args['data'] as $option => $title ) {
+						$options .= sprintf( '<option value="%s"%s>%s</option>', esc_attr( $option ), selected( $option, $args['value'], false ), esc_html( $title ) );
+					}
+				}
+
+				printf( '<select id="%s" name="site_settings_options[%s]">%s</select>', $args['id'], $args['name'], $options );
 
 			}
+
+		}
+
+		/**
+		 * Add Checkbox Settings Field
+		 *
+		 * @param  array  $args  Setting parameters.
+		 */
+		private static function add_settings_checkbox_field( $args ) {
+
+			if ( is_array( $args['data'] ) && ! empty( $args['data'] ) ) {
+
+				self::add_settings_checkboxes_field( $args );
+
+			} else {
+
+				printf( '<input id="%s" name="site_settings_options[%s]" size="40" type="%s" value="1"%s />', $args['id'], $args['name'], $args['input'], checked( 1, $args['value'], false ) );
+
+			}
+
+		}
+
+		/**
+		 * Add Checkboxes Settings Field
+		 *
+		 * @param  array  $args  Setting parameters.
+		 */
+		private static function add_settings_checkboxes_field( $args ) {
+
+			echo '<ul style="margin: 0;">';
+			foreach ( $args['data'] as $key => $label ) {
+				$name_attr = sprintf( 'site_settings_options[%s]', $args['name'] );
+				if ( 'checkbox' == $args['input'] ) {
+					$name_attr .= '[]';
+				}
+				$checked = is_array( $args['value'] ) ? checked( in_array( $key, $args['value'] ), true, false ) : checked( $key, $args['value'], false );
+				printf( '<li><label><input id="%s" name="%s" size="40" type="%s" value="%s"%s /> %s</label></li>', $args['id'], $name_attr, $args['input'], $key, $checked, esc_html( $label ) );
+			}
+			echo '</ul>';
+
+		}
+
+		/**
+		 * Add Text Settings Field
+		 *
+		 * @param  array  $args  Setting parameters.
+		 */
+		private static function add_settings_text_field( $args ) {
+
+			printf( '<input id="%s" name="site_settings_options[%s]" size="40" type="text" value="%s" class="regular-text" />', $args['id'], $args['name'], $args['value'] );
 
 		}
 
