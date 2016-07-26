@@ -182,24 +182,7 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 
 			} elseif ( in_array( $args['input'], array( 'checkbox', 'radio' ) ) ) {
 
-				if ( is_array( $args['data'] ) && ! empty( $args['data'] ) ) {
-
-					echo '<ul style="margin: 0;">';
-					foreach ( $args['data'] as $key => $label ) {
-						$name_attr = sprintf( 'site_settings_options[%s]', $args['name'] );
-						if ( 'checkbox' == $args['input'] ) {
-							$name_attr .= '[]';
-						}
-						$checked = is_array( $args['value'] ) ? checked( in_array( $key, $args['value'] ), true, false ) : checked( $key, $args['value'], false );
-						printf( '<li><label><input id="%s" name="%s" size="40" type="%s" value="%s"%s /> %s</label></li>', $args['id'], $name_attr, $args['input'], $key, $checked, esc_html( $label ) );
-					}
-					echo '</ul>';
-
-				} else {
-
-					printf( '<input id="%s" name="site_settings_options[%s]" size="40" type="%s" value="1"%s />', $args['id'], $args['name'], $args['input'], checked( 1, $args['value'], false ) );
-
-				}
+				self::add_settings_checkbox_field( $args );
 
 			} else {
 
@@ -217,6 +200,34 @@ if ( ! class_exists( 'Site_Settings_Admin_Screen' ) ) {
 		private static function add_settings_textarea_field( $args ) {
 
 			printf( '<textarea id="%s" name="site_settings_options[%s]" size="40" rows="%s" class="large-text">%s</textarea>', $args['id'], $args['name'], $args['rows'], $args['value'] );
+
+		}
+
+		/**
+		 * Add Checkbox Settings Field
+		 *
+		 * @param  array  $args  Setting parameters.
+		 */
+		private static function add_settings_checkbox_field( $args ) {
+
+			if ( is_array( $args['data'] ) && ! empty( $args['data'] ) ) {
+
+				echo '<ul style="margin: 0;">';
+				foreach ( $args['data'] as $key => $label ) {
+					$name_attr = sprintf( 'site_settings_options[%s]', $args['name'] );
+					if ( 'checkbox' == $args['input'] ) {
+						$name_attr .= '[]';
+					}
+					$checked = is_array( $args['value'] ) ? checked( in_array( $key, $args['value'] ), true, false ) : checked( $key, $args['value'], false );
+					printf( '<li><label><input id="%s" name="%s" size="40" type="%s" value="%s"%s /> %s</label></li>', $args['id'], $name_attr, $args['input'], $key, $checked, esc_html( $label ) );
+				}
+				echo '</ul>';
+
+			} else {
+
+				printf( '<input id="%s" name="site_settings_options[%s]" size="40" type="%s" value="1"%s />', $args['id'], $args['name'], $args['input'], checked( 1, $args['value'], false ) );
+
+			}
 
 		}
 
